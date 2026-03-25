@@ -1,6 +1,0 @@
-@EndUserText.label: 'ZC_ASHOPCART_000'
-@MappingRole: true
-define role ZC_ASHOPCART_000 {
-  grant select on ZC_ASHOPCART_000
-  where INHERITING CONDITIONS FROM ENTITY ZR_ASHOPCART_000 REPLACING { ROOT WITH _BaseEntity };
-}
