@@ -1,0 +1,116 @@
+managed implementation in class ZBP_R_PFI_INVOICE unique;
+strict ( 2 );
+with draft;
+extensible;
+
+define behavior for ZR_PFI_INVOICE alias Invoice
+persistent table ZPFI_INVOICES
+extensible
+draft table ZPFI_INVOICES_D
+etag master LocalLastChanged
+lock master total etag LastChangedAt
+authorization master( global )
+{
+  field ( readonly )
+   InvoiceUUID,
+   CreatedBy,
+   CreatedAt,
+   LastChangedBy,
+   LastChangedAt,
+   LocalLastChanged;
+
+  field ( numbering : managed )
+   InvoiceUUID;
+
+  create;
+  update;
+  delete;
+
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare;
+
+  determination setInitialValues on modify { create; }
+
+  association _Items { create; with draft; }
+
+  mapping for ZPFI_INVOICES corresponding extensible
+  {
+    InvoiceUUID = INVOICE_UUID;
+    PfiNumber = PFI_NUMBER;
+    SupplierUUID = SUPPLIER_UUID;
+    CurrencyCode = CURRENCY_CODE;
+    QuotationUUID = QUOTATION_UUID;
+    Status = STATUS;
+    PfiDate = PFI_DATE;
+    ValidityDate = VALIDITY_DATE;
+    RateTypeCode = RATETYPE_CODE;
+    ExchangeRate = EXCHANGE_RATE;
+    PayTermCode = PAYTERM_CODE;
+    IncoTermCode = INCOTERM_CODE;
+    ShipModeCode = SHIPMODE_CODE;
+    DepartureDate = DEPARTURE_DATE;
+    ArrivalDate = ARRIVAL_DATE;
+    PortLoading = PORT_LOADING;
+    PortDischarge = PORT_DISCHARGE;
+    ShipNatureCode = SHIPNATURE_CODE;
+    CreatedBy = CREATED_BY;
+    CreatedAt = CREATED_AT;
+    LastChangedBy = LAST_CHANGED_BY;
+    LastChangedAt = LAST_CHANGED_AT;
+    LocalLastChanged = LOCAL_LAST_CHANGED;
+  }
+}
+
+define behavior for ZR_PFI_INV_ITEM alias InvoiceItem
+persistent table ZPFI_INV_ITEMS
+draft table ZPFI_INV_ITEMS_D
+etag master LocalLastChanged
+lock dependent by _Invoice
+authorization dependent by _Invoice
+{
+  field ( readonly )
+   ItemUUID,
+   InvoiceUUID;
+
+  field ( numbering : managed )
+   ItemUUID;
+
+  update;
+  delete;
+
+  determination calculatePricing on modify { field FobUnitPrice; field LocalizationCost; field FreightCost; field Discount; field Quantity; }
+  determination deriveItemCode on modify { field ModelUUID; }
+
+  association _Invoice { with draft; }
+
+  mapping for ZPFI_INV_ITEMS corresponding extensible
+  {
+    ItemUUID = ITEM_UUID;
+    InvoiceUUID = INVOICE_UUID;
+    ModelUUID = MODEL_UUID;
+    ItemCode = ITEM_CODE;
+    Description = DESCRIPTION;
+    HSCodeUUID = HSCODE_UUID;
+    LotSize = LOT_SIZE;
+    Quantity = QUANTITY;
+    ListPrice = LIST_PRICE;
+    UnitPrice = UNIT_PRICE;
+    NoOfPO = NO_OF_PO;
+    FobUnitPrice = FOB_UNIT_PRICE;
+    LocalizationCost = LOCALIZATION_COST;
+    LocalizationPct = LOCALIZATION_PCT;
+    FreightCost = FREIGHT_COST;
+    Discount = DISCOUNT;
+    FinalFobRate = FINAL_FOB_RATE;
+    TotalCfr = TOTAL_CFR;
+    TotalAmount = TOTAL_AMOUNT;
+    POTypeCode = POTYPE_CODE;
+    Currency = CURRENCY;
+    KitPerUnit = KIT_PER_UNIT;
+    TbsPerUnit = TBS_PER_UNIT;
+    TyrePerUnit = TYRE_PER_UNIT;
+  }
+}

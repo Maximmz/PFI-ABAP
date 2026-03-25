@@ -1,0 +1,18 @@
+@EndUserText.label: 'Performa Invoice Service'
+@ObjectModel.leadingEntity.name: 'ZC_PFI_INVOICE'
+define service ZPFI_UI_INVOICE_O4 provider contracts odata_v4_ui {
+  expose ZC_PFI_INVOICE;
+  expose ZC_PFI_INV_ITEM;
+  expose ZC_PFI_SUPPLIERS;
+  expose ZC_PFI_MODELS;
+  expose ZC_PFI_CURRENCIES;
+  expose ZC_PFI_RATETYPES;
+  expose ZC_PFI_SHIPMODES;
+  expose ZC_PFI_INCOTERMS;
+  expose ZC_PFI_PORTS;
+  expose ZC_PFI_SHIPNATURE;
+  expose ZC_PFI_PAYTERMS;
+  expose ZC_PFI_POTYPES;
+  expose ZC_PFI_HSCODES;
+  expose ZC_PFI_QUOTATIONS;
+}
