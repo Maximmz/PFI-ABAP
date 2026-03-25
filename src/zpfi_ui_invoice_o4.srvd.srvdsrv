@@ -1,5 +1,11 @@
-@EndUserText.label: 'Performa Invoice Service'
-@ObjectModel.leadingEntity.name: 'ZC_PFI_INVOICE'
+@EndUserText: {
+  label: 'PFI service'
+}
+@ObjectModel: {
+  leadingEntity: {
+    name: 'ZC_PFI_INVOICE'
+  }
+}
 define service ZPFI_UI_INVOICE_O4 provider contracts odata_v4_ui {
   expose ZC_PFI_INVOICE;
   expose ZC_PFI_INV_ITEM;
